@@ -1,0 +1,23 @@
+# User layer: confidential sources, drafts, personal voice
+papers/*
+!papers/.gitkeep
+writing-samples/*
+!writing-samples/README.md
+voice-dna.md
+config/profile.yml
+modes/_custom.md
+
+.venv/
+
+# LaTeX build output
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# IDE
+.idea/

@@ -1,0 +1,9 @@
+# Copy to config/profile.yml. Asked once, reused for every paper.
+author:
+  name: ""
+  affiliation: ""
+  email: ""
+  orcid: ""
+
+writing:
+  english: american   # american | british
