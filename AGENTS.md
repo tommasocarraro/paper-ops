@@ -90,7 +90,7 @@ Normal order: `style` (once) → `new` → `intake` → `brief` → `template` �
 
 | Script | What it enforces |
 |--------|------------------|
-| `node check-numbers.mjs papers/{slug}` | Every number in `sections/*.tex` and `tables/*.tex` appears in `facts.md`, `brief.md` or `figures/data/` |
+| `node check-numbers.mjs papers/{slug}` | Every number in `sections/*.tex` is stated by a fact its paragraph names in `% facts:`, or by `brief.md` or `figures/data/`; every number in `tables/*.tex` is in the ledger; superseded facts back nothing |
 | `node check-citations.mjs papers/{slug}` | Every `\cite` key is in `references.bib` and has a fetched `refs/` note |
 
 | `node check-figures.mjs papers/{slug}` | Every figure and table file exists, has a caption and label, is referenced in the text, and every data CSV has recorded provenance |

@@ -33,7 +33,7 @@ Anything the paper needs that the ledger does not hold is written as `\todo{what
 ## Traceability in LaTeX
 
 - End each paragraph that states ledger content with a comment naming its facts: `% facts: F012, F031`.
-- These comments are for the author and for `review`; they do not appear in the PDF.
+- These comments are for the author and for `review`, and `check-numbers.mjs` reads them: a number passes only if a fact named in its paragraph's comment states it. They do not appear in the PDF.
 
 ## Language
 

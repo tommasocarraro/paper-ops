@@ -6,8 +6,11 @@ writing-samples/*
 voice-dna.md
 config/profile.yml
 modes/_custom.md
+venue-templates/*
+!venue-templates/README.md
 
 .venv/
+.claude/settings.local.json
 
 # LaTeX build output
 *.aux
