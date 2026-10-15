@@ -1,0 +1,10 @@
+# Written by /lab-log init. Asked once, reused by every mode.
+name: ""
+description: ""          # one line: what the project is trying to find out
+started: ""              # YYYY-MM-DD
+code_repos:              # where experiments run; results paths and commits resolve here
+  - name: ""
+    path: ""             # absolute path
+snapshot:                # what log-snapshot.mjs copies into log/artifacts/{id}/
+  max_file_mb: 5         # larger files are recorded by size and sha256 only
+  max_entry_mb: 50

@@ -1,6 +1,8 @@
 # User layer: confidential sources, drafts, personal voice
 papers/*
 !papers/.gitkeep
+projects/*
+!projects/.gitkeep
 writing-samples/*
 !writing-samples/README.md
 voice-dna.md
@@ -10,6 +12,13 @@ venue-templates/*
 !venue-templates/README.md
 
 .venv/
+# Meeting audio, wherever it is left
+*.m4a
+*.mp3
+*.wav
+*.ogg
+*.opus
+*.flac
 .claude/settings.local.json
 
 # LaTeX build output
