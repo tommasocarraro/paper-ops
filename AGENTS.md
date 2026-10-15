@@ -4,10 +4,19 @@ Turns project documentation the author already wrote into a research paper, in t
 
 ## Data Contract (CRITICAL)
 
-- **User Layer (never auto-updated; personalization goes HERE):** `config/profile.yml`, `voice-dna.md`, `writing-samples/*`, `venue-templates/*`, `modes/_custom.md`, `papers/*`
+- **User Layer (never auto-updated; personalization goes HERE):** `config/profile.yml`, `voice-dna.md`, `writing-samples/*`, `venue-templates/*`, `modes/_custom.md`, `papers/*`, `projects/*`
 - **System Layer (shared defaults; DON'T put user data here):** `AGENTS.md`, `CLAUDE.md`, `modes/*` except `_custom.md`, `templates/*`, `*.mjs`, `.claude/skills/*`
 
-Style and voice rules go to `voice-dna.md`. Procedural house rules go to `modes/_custom.md` (copy from `modes/_custom.template.md` if missing). Facts about a paper go to that paper's folder, never anywhere else.
+Style and voice rules go to `voice-dna.md`. Procedural house rules go to `modes/_custom.md` (copy from `modes/_custom.template.md` if missing). Facts about a paper go to that paper's folder, never anywhere else. The record of a project goes to its log in `projects/{name}/log/`.
+
+## Skills
+
+| Skill | For | Rules |
+|-------|-----|-------|
+| `/paper-ops` | Writing a paper from documentation and the project log | this file |
+| `/lab-log` | The project's changelog from day one: research questions and their evidence, experiments, supervisor meetings, decisions, design, datasets, bugs, dead ends, findings, other work | `modes/lab-log/_shared.md`; it also runs from experiment repos, where this file is not loaded |
+
+Planned skills and their order are in `TODO.md`.
 
 ## Paper folder
 
@@ -16,7 +25,8 @@ Every paper lives in `papers/{slug}/`, created by the `new` mode from `templates
 | File | Function | Written by |
 |------|----------|-----------|
 | `source/` | The documentation document(s), figures, result tables, logs | user |
-| `facts.md` | Claims ledger: every fact, number and design decision extracted from `source/`, each with an ID and a page pointer | `intake` |
+| `paper.yml` | The project whose log `intake` reads, if any | `new` |
+| `facts.md` | Claims ledger: every fact, number and design decision extracted from `source/` and the project log, each with an ID and a page or entry pointer | `intake` |
 | `brief.md` | The author's decisions: venue, story, contributions, scope, confidentiality, terminology | `brief` |
 | `links.md` | Related-work links, grouped by theme by the author | user / `related` |
 | `refs/{key}.md` | One note per fetched reference: what the paper says, with fetch status | `related` |
@@ -34,7 +44,7 @@ Every paper lives in `papers/{slug}/`, created by the `new` mode from `templates
 
 ## Source-of-Truth Boundary (CRITICAL)
 
-Paper content is generated **exclusively** from that paper's `source/`, `facts.md`, `brief.md`, `refs/`, and statements the author makes in the current conversation.
+Paper content is generated **exclusively** from that paper's `source/`, its project's log (through `intake`), `facts.md`, `brief.md`, `refs/`, and statements the author makes in the current conversation.
 
 - **Every number, result, dataset size, hyperparameter and design decision in the paper must trace to a `facts.md` entry.** If it is not in the ledger, it does not go in the paper. Ask the author; if they do not supply it, write `\todo{...}` in its place. Silence is fine; manufactured detail is not.
 - **Never improve a result.** No rounding in the paper's favour, no "significantly" without a test recorded in `facts.md`, no "outperforms" where the ledger says "matches" or "is worse". Negative results are reported as the ledger states them.
@@ -92,8 +102,8 @@ Normal order: `style` (once) → `new` → `intake` → `brief` → `template` �
 |--------|------------------|
 | `node check-numbers.mjs papers/{slug}` | Every number in `sections/*.tex` is stated by a fact its paragraph names in `% facts:`, or by `brief.md` or `figures/data/`; every number in `tables/*.tex` is in the ledger; superseded facts back nothing |
 | `node check-citations.mjs papers/{slug}` | Every `\cite` key is in `references.bib` and has a fetched `refs/` note |
-
 | `node check-figures.mjs papers/{slug}` | Every figure and table file exists, has a caption and label, is referenced in the text, and every data CSV has recorded provenance |
+| `node check-log.mjs projects/{name} [--seal]` | Every log entry is well formed, its references resolve, every result number has a pointer, and sealed entries are unchanged |
 
 `node make-table.mjs data.csv --out table.tex` turns a CSV into a booktabs tabular with the best value per column in bold, copying digits unchanged.
 
@@ -105,7 +115,8 @@ Run the checks after every `draft`, `related` or `figures` pass and report their
 
 ## Conventions
 
-- Node.js (`.mjs`, no dependencies), LaTeX, Markdown, YAML; Python with matplotlib in `.venv/` for plots only
+- Node.js (`.mjs`, no dependencies), LaTeX, Markdown, YAML; Python in `.venv/` for plots (matplotlib) and local meeting transcription (faster-whisper, `transcribe.py`) only
 - Paper slugs: lowercase kebab-case
 - Fact IDs: `F001`, `F002`, ... never renumbered once assigned
+- Log entry IDs: `L001`, `L002`, ... one sequence per project, never renumbered
 - Cite keys: `{firstauthor}{year}{firstword}`, lowercase
