@@ -8,7 +8,7 @@ Each mode checks its prerequisites first and stops with the name of the mode to 
 
 | Mode | Requires |
 |------|----------|
-| `intake` | at least one file in `source/` |
+| `intake` | at least one file in `source/`, or a `project:` in `paper.yml` whose log has entries |
 | `brief` | `facts.md` |
 | `template` | a kit in `venue-templates/` or a download link from the author |
 | `related` | `links.md` with at least one link; `brief.md` |

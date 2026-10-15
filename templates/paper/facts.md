@@ -1,7 +1,7 @@
 # Claims ledger
 
-Written by `intake` from `source/`. The paper may state only what is listed here.
-Format: `- **F001** · p. 3 · statement exactly as the source supports it.`
+Written by `intake` from `source/` and the project log. The paper may state only what is listed here.
+Format: `- **F001** · p. 3 · statement exactly as the source supports it.` (pointer: page, file, or log entry `L014`)
 
 ## Problem and motivation
 
@@ -29,5 +29,7 @@ Format: `- **F001** · p. 3 · statement exactly as the source supports it.`
 ## Not found in the source
 
 ## Conflicts in the source
+
+## Not used from the log
 
 ## Sensitive items
