@@ -14,12 +14,12 @@ Order matters: the logbook comes first because the other skills write into it an
   - Supervisor meetings: `meeting` entries from a written report or a local transcription (`transcribe.py`), English report in the shape of the author's own, action items tracked with `actions:` / `resolves:`
   - Research questions: one file each in `questions/`, every change logged as a `question` entry, evidence collected from `evidence:` blocks with the author's stance
 
-- [ ] **`/paper-read` skill — understand a paper**
-  - One folder per paper in `library/{key}/`: `summary.md`, `notation.md`, `qa.md` (per paper), source PDF or arXiv LaTeX
+- [x] **`/paper-read` skill — understand a paper**
+  - One folder per paper in `library/{key}/`, shared across projects: `card.md`, `notes.md`, `notation.md`, `setup.md`, `equations.md`, `code.md`, `delta.md`, `qa.md`, `relation/{project}.md`; source as arXiv LaTeX + PDF, official code pinned to a commit
   - Prefer arXiv LaTeX source over PDF text so equations come through exactly; check the official code when it exists
   - Answers labelled by provenance: the paper says / the code does / derivation / external source [link] / interpretation, unverified
   - Own trust rules: background knowledge and web search allowed, but always labelled. Never mixed with `paper-ops` source-of-truth rules
-  - Modes: `read`, `ask`, `notation`, `compare` (against the author's idea from the project log or brief)
+  - Modes: `add`, `read`, `equations`, `code`, `ask`, `compare`; checked by `check-library.mjs`
 
 - [ ] **`/data-ops` skill — dataset processing**
   - Independent of any paper: the unit is a dataset in a project

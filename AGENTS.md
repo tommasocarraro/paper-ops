@@ -4,7 +4,7 @@ Turns project documentation the author already wrote into a research paper, in t
 
 ## Data Contract (CRITICAL)
 
-- **User Layer (never auto-updated; personalization goes HERE):** `config/profile.yml`, `voice-dna.md`, `writing-samples/*`, `venue-templates/*`, `modes/_custom.md`, `papers/*`, `projects/*`
+- **User Layer (never auto-updated; personalization goes HERE):** `config/profile.yml`, `voice-dna.md`, `writing-samples/*`, `venue-templates/*`, `modes/_custom.md`, `papers/*`, `projects/*`, `library/*`
 - **System Layer (shared defaults; DON'T put user data here):** `AGENTS.md`, `CLAUDE.md`, `modes/*` except `_custom.md`, `templates/*`, `*.mjs`, `.claude/skills/*`
 
 Style and voice rules go to `voice-dna.md`. Procedural house rules go to `modes/_custom.md` (copy from `modes/_custom.template.md` if missing). Facts about a paper go to that paper's folder, never anywhere else. The record of a project goes to its log in `projects/{name}/log/`.
@@ -14,6 +14,7 @@ Style and voice rules go to `voice-dna.md`. Procedural house rules go to `modes/
 | Skill | For | Rules |
 |-------|-----|-------|
 | `/paper-ops` | Writing a paper from documentation and the project log | this file |
+| `/paper-read` | Understanding papers: card, notes, notation, setup, equations explained and mapped to code, Q&A, comparison with a project; in `library/{key}/`, shared across projects | `modes/paper-read/_shared.md`; background knowledge and web search allowed, always labelled |
 | `/lab-log` | The project's changelog from day one: research questions and their evidence, experiments, supervisor meetings, decisions, design, datasets, bugs, dead ends, findings, other work | `modes/lab-log/_shared.md`; it also runs from experiment repos, where this file is not loaded |
 
 Planned skills and their order are in `TODO.md`.
@@ -56,7 +57,7 @@ Paper content is generated **exclusively** from that paper's `source/`, its proj
 
 ## Citation Integrity (CRITICAL)
 
-- A work may be cited only if it has a `refs/{key}.md` note produced by fetching a link the author supplied (or a PDF the author dropped in `source/`).
+- A work may be cited only if it has a `refs/{key}.md` note produced by fetching a link the author supplied (or a PDF the author dropped in `source/`). A paper the author added to `library/` with `/paper-read add` counts as fetched.
 - BibTeX fields come from the fetched page, the DOI resolver or the arXiv API. **Never write a BibTeX entry, author list, year or venue from memory.**
 - What the paper says about a cited work must be supported by that work's `refs/` note. A note with `status: metadata-only` (abstract only) supports abstract-level statements only.
 - Never add a citation the author did not supply. If a claim needs a reference that is missing, list it under "Suggested additions" for the author to find and approve; do not cite it.
@@ -103,6 +104,7 @@ Normal order: `style` (once) → `new` → `intake` → `brief` → `template` �
 | `node check-numbers.mjs papers/{slug}` | Every number in `sections/*.tex` is stated by a fact its paragraph names in `% facts:`, or by `brief.md` or `figures/data/`; every number in `tables/*.tex` is in the ledger; superseded facts back nothing |
 | `node check-citations.mjs papers/{slug}` | Every `\cite` key is in `references.bib` and has a fetched `refs/` note |
 | `node check-figures.mjs papers/{slug}` | Every figure and table file exists, has a caption and label, is referenced in the text, and every data CSV has recorded provenance |
+| `node check-library.mjs library[/{key}]` | Every note in a library paper names its location in the paper or a label, its numbers occur in the paper's text, its code pointers exist at the pinned commit, and its equations are quoted verbatim |
 | `node check-log.mjs projects/{name} [--seal]` | Every log entry is well formed, its references resolve, every result number has a pointer, and sealed entries are unchanged |
 
 `node make-table.mjs data.csv --out table.tex` turns a CSV into a booktabs tabular with the best value per column in bold, copying digits unchanged.

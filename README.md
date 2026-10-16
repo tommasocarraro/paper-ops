@@ -12,6 +12,18 @@ Write a research paper from documentation you already have, in your own voice.
 
 The paper is plain LaTeX in `papers/my-paper/`: one file per section under `sections/`, `main.tex`, `references.bib`. Build it with `latexmk -pdf main.tex` or upload the folder to Overleaf.
 
+## Reading papers
+
+`/paper-read` turns a paper into notes you can rely on later, in `library/{key}/`, shared across projects.
+
+1. `/paper-read add {arxiv-or-doi-link}` fetches the metadata, the LaTeX source, the PDF and (with the code repo's link) the official code at a pinned commit, and writes a one-page card.
+2. `/paper-read read` writes section notes, a notation table and the experimental setup (with what the paper leaves unspecified), then re-checks them against the paper.
+3. `/paper-read equations` explains each key formula: what every term is, why it is there, how it is derived, and where the code computes it.
+4. `/paper-read ask {question}` answers anything about the paper, saying where each statement comes from (the paper, the code, a derivation, the web), and keeps the answer in `qa.md`.
+5. `/paper-read code` maps the repo; `/paper-read compare` relates the paper to one of your projects.
+
+`node check-library.mjs library` checks that every note points to the paper and every number in it occurs in the paper.
+
 ## Project logbook
 
 `/lab-log` keeps the changelog of the project behind the paper, from the first day: research questions, experiments, decisions, design, datasets, bugs, dead ends, findings and other work, one markdown entry each in `projects/{name}/log/`. Each research question also has a file, `projects/{name}/questions/RQ{n}.md`, holding its current version; every change to it is logged, and its evidence is collected from the entries that point to it.
