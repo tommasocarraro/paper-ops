@@ -10,6 +10,7 @@ Builds `refs/`, `references.bib` and `sections/related-work.tex` from the links 
 
 For every link without a `refs/` note yet:
 
+0. **Already in the library?** If `library/{key}/meta.yml` exists for this paper (same arXiv ID or DOI), it was fetched by `fetch-paper.mjs` and its notes were checked against the paper. Use its `meta.yml` for metadata and its `card.md` and `notes.md` (with their locations) for the note, and skip steps 1–2. The note's `status` is `full-text` if the library status is `read` or `verified`.
 1. **Metadata** — never from memory:
    - arXiv link → `http://export.arxiv.org/api/query?id_list={id}`
    - DOI link, or a DOI visible on the page → `curl -sLH "Accept: application/x-bibtex" https://doi.org/{doi}`
