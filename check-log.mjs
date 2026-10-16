@@ -37,8 +37,8 @@
 //   rq-unlogged-change  a question file's wording, contract sections or answer
 //                     differ from what the log last recorded
 //   bad-action        an action item lacks id or what, its id is not {entry}-A{n}
-//                     of its own entry, or is used twice; resolves: names an
-//                     unknown action item
+//                     of its own entry, or is used twice; resolves: or
+//                     updates_actions: names an unknown action item
 //   unconfirmed-speakers  a settled transcribed entry lacks speakers_confirmed: true
 // Warnings (exit 0):
 //   unsealed          a settled entry has not been sealed yet; run with --seal
@@ -300,6 +300,15 @@ for (const e of entries) {
 }
 for (const e of entries) {
   for (const r of asList(e.front.resolves)) if (!seenActions.has(r)) err(e, 'bad-action', `resolves: ${r} is not an action item`);
+  const ups = e.front.updates_actions;
+  if (ups == null) continue;
+  if (!Array.isArray(ups)) { err(e, 'bad-action', 'updates_actions must be a list of {id, who, due, what}'); continue; }
+  for (const u of ups) {
+    if (!u || typeof u !== 'object' || !u.id) err(e, 'bad-action', 'each updates_actions item needs an id');
+    else if (!seenActions.has(String(u.id))) err(e, 'bad-action', `updates_actions: ${u.id} is not an action item`);
+    else if (!['who', 'due', 'what'].some((k) => u[k] != null)) err(e, 'bad-action', `updates_actions: ${u.id} sets none of who, due, what`);
+    else if (u.due != null && !/^\d{4}-\d{2}-\d{2}$/.test(String(u.due))) err(e, 'bad-action', `updates_actions: ${u.id} due "${u.due}" is not YYYY-MM-DD`);
+  }
 }
 const today = new Date().toISOString().slice(0, 10);
 const actions = actionItems(entries);

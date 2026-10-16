@@ -82,7 +82,7 @@ Any type may add `## Claude's notes`. Bodies use plain markdown: headings, lists
 
 An entry bears on a research question through `evidence:`. The stance is the **author's** judgment, asked when the entry settles, never Claude's: `supports` or `contradicts` the hypothesis, `inconclusive`, or `setup` (serves the question without answering it: tuning, sanity checks). An entry can bear on several questions, or none. Entries invalidated by a bug, a correction or a later result stop counting automatically.
 
-Meetings are `meeting` entries (see `meeting.md`). Their action items are tracked across meetings: `actions:` on the meeting, `resolves:` on whichever later entry closes one.
+Meetings are `meeting` entries (see `meeting.md`). Their action items are tracked across meetings: `actions:` on the meeting, `resolves:` on whichever later entry closes one, and `updates_actions: [{id: L001-A1, who: …, due: …}]` on a later entry to set an owner or due date after the meeting is sealed.
 
 `work` is for anything done that fits no other type: a data loader written, a refactor, a meeting that changed direction (its decisions go in `decision` entries).
 

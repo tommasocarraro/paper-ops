@@ -192,7 +192,10 @@ function meta(entry) {
     ['Speakers', f.provenance === 'transcribed' ? (f.speakers_confirmed === true ? 'confirmed by the author' : '\\textcolor{red!70!black}{not confirmed}') : ''],
     ['Actions', (Array.isArray(f.actions) ? f.actions : []).filter((a) => a && a.id).map((a) => {
       const st = actionsById.get(String(a.id));
-      return `${esc(a.id)}: ${inline(String(a.what ?? ''))}${a.who ? ` (${esc(a.who)}${a.due ? `, ${esc(a.due)}` : ''})` : ''} \\textperiodcentered{} ${st?.resolvedBy ? `resolved in ${idLink(st.resolvedBy)}` : '\\textbf{open}'}`;
+      const who = st?.who ?? a.who;
+      const due = st?.due ?? a.due;
+      const upd = st?.updatedBy?.length ? `, updated in ${st.updatedBy.map(idLink).join(', ')}` : '';
+      return `${esc(a.id)}: ${inline(String(st?.what ?? a.what ?? ''))}${who ? ` (${esc(who)}${due ? `, ${esc(due)}` : ''}${upd})` : ''} \\textperiodcentered{} ${st?.resolvedBy ? `resolved in ${idLink(st.resolvedBy)}` : '\\textbf{open}'}`;
     }).join('\\newline ')],
     ['Resolves', asList(f.resolves).map(esc).join(', ')],
     ['Evidence', evidenceOf(entry).map((x) => `${idLink(String(x.rq))}: ${esc(x.stance ?? 'stance pending')}`).join(', ')],

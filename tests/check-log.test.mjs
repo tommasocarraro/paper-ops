@@ -292,3 +292,15 @@ test('a settled transcribed meeting needs its speakers confirmed', () => {
   assert.deepEqual(types(check(files(''))), ['unconfirmed-speakers']);
   assert.deepEqual(check(files('speakers_confirmed: true\n')).errors, []);
 });
+
+test('a later entry can set the owner and due date of a sealed meeting\'s action item', () => {
+  const work = `---\nid: L003\ntype: work\ntitle: Assign owners\ndate: 2026-10-16\nstatus: done\nprovenance: stated\nupdates_actions:\n  - id: L002-A2\n    who: author\n    due: 2099-01-01\n---\n\n## What was done\nOwners assigned.\n## Why\nAuthor said so.\n`;
+  const r = check({ [D]: DECISION, 'log/2026-10-15-L002-meet.md': meeting('L002', '2026-10-15', { actions: ACTIONS('L002') }), 'log/2026-10-16-L003-owners.md': work });
+  assert.deepEqual(r.errors, []);
+  const a2 = r.actions.find((a) => a.id === 'L002-A2');
+  assert.equal(a2.who, 'author');
+  assert.equal(a2.due, '2099-01-01');
+  assert.deepEqual(a2.updatedBy, ['L003']);
+  const bad = work.replace('id: L002-A2', 'id: L002-A9');
+  assert.deepEqual(types(check({ [D]: DECISION, 'log/2026-10-15-L002-meet.md': meeting('L002', '2026-10-15', { actions: ACTIONS('L002') }), 'log/2026-10-16-L003-owners.md': bad })), ['bad-action']);
+});

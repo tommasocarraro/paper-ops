@@ -238,7 +238,17 @@ export function actionItems(entries) {
     }
   }
   const byId = new Map(items.map((a) => [a.id, a]));
-  for (const e of entries.filter((x) => x.id)) {
+  const ordered = entries.filter((x) => x.id).sort((a, b) => String(a.front.date).localeCompare(String(b.front.date)) || a.id.localeCompare(b.id, 'en', { numeric: true }));
+  // Later entries may set an item's owner or due date: the meeting stays sealed, the change is logged.
+  for (const e of ordered) {
+    for (const u of Array.isArray(e.front.updates_actions) ? e.front.updates_actions : []) {
+      const a = u && byId.get(String(u.id));
+      if (!a) continue;
+      for (const k of ['what', 'who', 'due']) if (u[k] != null) a[k] = String(u[k]);
+      a.updatedBy = [...(a.updatedBy ?? []), e.id];
+    }
+  }
+  for (const e of ordered) {
     for (const r of asList(e.front.resolves)) if (byId.has(r) && !byId.get(r).resolvedBy) byId.get(r).resolvedBy = e.id;
   }
   return items;
