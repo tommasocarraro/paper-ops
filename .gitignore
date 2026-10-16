@@ -3,6 +3,8 @@ papers/*
 !papers/.gitkeep
 projects/*
 !projects/.gitkeep
+library/*
+!library/.gitkeep
 writing-samples/*
 !writing-samples/README.md
 voice-dna.md
